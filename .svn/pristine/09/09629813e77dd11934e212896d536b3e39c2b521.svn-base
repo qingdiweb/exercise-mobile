@@ -1,0 +1,35 @@
+/*目录下做题*/
+topicCont.controller('topicClientDownload',['$scope','$timeout','$stateParams','$ionicSlideBoxDelegate','$ionicScrollDelegate','$ionicGesture','$ionicModal',function($scope,$timeout,$stateParams,$ionicSlideBoxDelegate,$ionicScrollDelegate,$ionicGesture,$ionicModal){
+		function isAndroid_ios(){
+			var u = navigator.userAgent, app = navigator.appVersion;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			return isAndroid==true?true:false;
+		}
+		if(isAndroid_ios()){
+		 
+			//安卓
+			$scope.showType=false
+		 
+		}else{
+		 
+			//ios
+			$scope.showType=true
+		 
+		}
+		$scope.iosTeachDownload=function(event){
+			window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.edu.teacher"
+		}
+		$scope.iosStuDownload=function(){
+			window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.edu.student"
+		}
+		function downloadFile(fileName, content){
+		    var aLink = document.createElement('a');
+		    var blob = new Blob([content]);
+		    var evt = document.createEvent("HTMLEvents");
+		    evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+		    aLink.download = fileName;
+		    aLink.href = URL.createObjectURL(blob);
+		    aLink.dispatchEvent(evt);
+		}
+}]);

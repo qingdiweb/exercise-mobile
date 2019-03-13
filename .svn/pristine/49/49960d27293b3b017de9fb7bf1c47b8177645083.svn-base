@@ -1,0 +1,172 @@
+<html ng-app="huazilive">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="wap-font-scale" content="no">
+    <title>课堂练习错题本</title>
+    <link href="css/ionic.css" rel="stylesheet">
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/edit.css" rel="stylesheet">
+    <link href="css/topic-cont.css" rel="stylesheet">
+  <!--   <script src="js/angular/angular.min.js"></script>
+  <script src="js/angular-ui/angular-ui-router.min.js"></script> -->
+    <script type="text/javascript" src="js/ionic.bundle.min.js"></script>
+    <script type="text/javascript" src="js/zepto.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <!-- 题目内容 -->
+    <script type="text/javascript" src="js/topic-cont/controller-classroom-wrong.js"></script>
+    <script type="text/javascript" src="js/topic-cont/directive-classroom-wrong.js"></script>
+    <script type="text/javascript" src="js/topic-cont/service.js"></script>
+</head>
+    <body style="background:rgba(240,240,242,1);" ng-controller="classroomWrongCont" classroom-wrong-cont-directive>
+        <ion-content class="wrong-cont-box w fl" overflow-scroll="true">
+          <!--   <span>{{questionId}}</span> -->
+            <div class="pa loading-icon" ng-if="isLoading">
+                <span class="loading-text">加载中</span>
+                <ion-spinner icon="ios" style='display: block;text-align:center;'></ion-spinner>
+            </div>
+            <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%;" on-scroll="$event.preventDefault()">
+                <div class="w fl">
+            	    <div  class="directory-slide directory-slide-list fl w" ng-repeat="wrongContList in wrongCont" data-index="{{$index}}" data-questionId="{{wrongContList.questionId}}" data-isStart="" on-tap="jumpParse($event)">
+                        <!-- 单选题 -->
+                        <div class="directory-topic-slide-box wrong-topic-slide-box mb10 bgf" ng-if="wrongContList.questionInfo.type==0">
+                            <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public mt0">
+                                <p class="title-details f15"><span class="topic-type dib f14">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                                <div class="topic-options"  data-paperId="{{wrongContList.id}}" data-answer="{{wrongContList.questionInfo.answer}}">
+                                    <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.questionInfo.option">
+                                        <b class="pa topic-options-mask"></b>
+                                        <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
+                                        <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                            
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 多选题 -->
+                        <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf" ng-if="wrongContList.questionInfo.type==1">
+                            <div class="directory-multi-topic-cont directory-checkout-topic-cont directory-topic-public mt0">
+                                 <p class="title-details f15"><span class="topic-type dib f14">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                                <div class="topic-options" data-paperId="{{wrongContList.id}}" data-answer="{{wrongContList.questionInfo.answer}}">
+                                    <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.questionInfo.option">
+                                        <b class="pa topic-options-mask"></b>
+                                        <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
+                                        <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                            
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 填空题 -->
+                        <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf"  ng-if="wrongContList.questionInfo.type==2">
+                            <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
+                                <p class="title-details f15"><span class="topic-type dib f14">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                               <!--   <div class="topic-fillUp f14">
+                                  本题目不支持作答,可在交卷后核对答案并查看解析
+                                                               </div> -->
+                            </div>
+                        </div>
+                        <!-- 问答题 -->
+                        <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf" ng-if="wrongContList.questionInfo.type==3">
+                            <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
+                                <p class="title-details f15"><span class="topic-type dib f14">(问答题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                                
+                               <!--   <div class="topic-fillUp f14">
+                                  本题目不支持作答,可在交卷后核对答案并查看解析
+                                                               </div> -->
+                            </div>
+                        </div>
+                        <!-- 多问题 -->
+                        <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf" ng-if="wrongContList.questionInfo.type==4">
+                            <div class="directory-readComprehen-topic-cont pr directory-topic-public mt0">
+                                <div class="title-details" style="width: 100%;;">
+                                        <div>
+                                            <p ng-bind-html="wrongContList.questionInfo.title"></p>
+                                            <div class="blank-box"></div> 
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 短听力 -->
+                        <!-- <div class="directory-topic-slide-box wrong-topic-slide-box mb10 bgf" ng-if="wrongContList.questionInfo.type==5">
+                                <div class="directory-multi-topic-cont directory-hearing-topic-cont pr directory-topic-public mt0">
+                                    <audio class="hearing-auto" controls="">
+                                        <source src="http://www.wtabcd.cn/article/sort04/sort035" type="audio/mpeg" />
+                                    </audio>
+                                    <p class="title-details f15"><span class="topic-type dib f14">(听力题)</span>what are the speakers talking about?</p>
+                                    <div class="topic-options">
+                                        <div class="clearfix pr topic-options-box" >
+                                            <b class="pa topic-options-mask"></b>
+                                            <span class="fl dib pr topic-options-letter">A</span>
+                                            <p class="f15 topic-options-details">
+                                                工程之大
+                                            </p>
+                                        </div>
+                                        <div class="clearfix pr topic-options-box" >
+                                            <b class="pa topic-options-mask"></b>
+                                            <span class="fl dib pr topic-options-letter">B</span>
+                                            <p class="f15 topic-options-details">
+                                                工程之大
+                                            </p>
+                                        </div>
+                                        <div class="clearfix pr topic-options-box" >
+                                            <b class="pa topic-options-mask"></b>
+                                            <span class="fl dib pr topic-options-letter">C</span>
+                                            <p class="f15 topic-options-details">
+                                                工程之大
+                                            </p>
+                                        </div>
+                                        <div class="clearfix pr topic-options-box" >
+                                            <b class="pa topic-options-mask"></b>
+                                            <span class="fl dib pr topic-options-letter">D</span>
+                                            <p class="f15 topic-options-details">
+                                                工程之大
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>  -->       
+                        <!-- 长听力 -->
+                        <!-- <div class="directory-topic-slide-box wrong-topic-slide-box mb10 bgf" ng-if="wrongContList.questionInfo.type==6">
+                                <div class="directory-multi-topic-cont directory-longhearing-topic-cont pr directory-topic-public mt0">
+                                    <audio class="hearing-auto" controls="">
+                                        <source src="http://www.wtabcd.cn/article/sort04/sort035" type="audio/mpeg" />
+                                    </audio>
+                                    <p class="title-details f15"><span class="topic-type dib f14">(听力题)</span>what are the speakers talking about?</p>
+                                    <div class="pa directory-read-multiple-choice">
+                                        <span class="db pa updownMoveBtn"></span>
+                                        <ion-content>
+                                            <h1 class="head-nav doubleView-head-nav">
+                                                <span class="title f15 fl">1.1函数与基本函数</span>
+                                                <p class="current-topic f15 fr"><span ng-bind="currentRead">1</span>/<span>5</span></p>
+                                            </h1>
+                                            <div-box class="double-view-slide" on-slide-changed="slideReadChanged($index,$event)">
+                                                <div>
+                                                    第一道题
+                                                </div>
+                                                <div>
+                                                    第二道题
+                                                </div>
+                                                <div>
+                                                    第三道题
+                                                </div>
+                                                <div>
+                                                    第四道题
+                                                </div>
+                                                <div>
+                                                    第五道题
+                                                </div>
+                                            </div-box>
+                                        </ion-content>
+                                    </div>
+                                </div>
+                        </div>  -->       
+                    </div> 
+                </div>
+                <ion-infinite-scroll on-infinite="loadMoreData()"  distance="1%" immediate-check="false" ng-if="isMore"></ion-infinite-scroll>
+                <div style="width: 100%;text-align: center;color:#707477;" ng-if="isMoreprompt">没有更多哦~</div>
+            </ion-scroll>
+        </ion-content>
+    </body>
+</html>

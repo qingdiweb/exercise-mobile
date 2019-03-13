@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>利用 clipboardData 在网页中实现截屏粘贴的功能</title>
+<style type="text/css">
+#box{ width:200px; height:200px; border:1px solid #ddd; }
+#testInput{
+  width: 500px;
+  height: 500px;
+}
+.bbb
+{
+   width: 100px;
+   height: 100px;
+   background: green;
+   margin-bottom: 20px;
+}
+</style>
+<script src='jquery-3.3.1.min.js'></script>
+</head>
+<body>
+
+<!-- <canvas id="myCanvas" width="300" height="150" style="border:1px solid #d3d3d3;">
+您的浏览器不支持 HTML5 canvas 标签。
+</canvas> -->
+<div id='aa'></div>
+<script type="text/javascript">
+$(function(){
+	let point=[{x:50,y:50},{x:51,y:51},{x:52,y:52},{x:53,y:53},{x:54,y:54},{x:55,y:55},{x:56,y:56},{x:57,y:57},{x:58,y:58},{x:59,y:59}]
+  var canvs = [];
+  for (var i = 0; i < 60; i++) {
+    var canv=document.createElement('canvas');
+        canv.width=300;
+        canv.height=150;
+        canv.setAttribute('id','myCanvas'+i);
+        canv.style.border='1px solid black';
+        canvs[i] =canv;
+        document.body.append(canv);
+  }
+    setInterval(function(){
+      var x = parseInt(Math.random()*100);
+      var y = parseInt(Math.random()*100);
+      for (var i = 0; i < point.length; i++) {
+        point[i].x = x+i;
+        point[i].y = y+i;
+      }
+      for (var i = 0; i < 60; i++) {
+        dragPoints(canvs[i],point);
+      }
+    },1000)
+    
+})
+function dragPoints(c,point){
+  var ctx=c.getContext("2d");
+  var imgData=ctx.getImageData(0,0,c.width,c.height);
+  // for (var i=0;i<imgData.data.length;i+=4)
+  // {
+  //   imgData.data[i+0]=255;
+  //   imgData.data[i+1]=255;
+  //   imgData.data[i+2]=255;
+  //   imgData.data[i+3]=255;
+  // }
+  for (var i = 0; i < point.length; i++) {
+    var pos = point[i].x + c.width * point[i].y;
+    imgData.data[ pos*4] = 255;
+    imgData.data[ pos*4+1] = 0;
+    imgData.data[ pos*4+2] = 0;
+    imgData.data[ pos*4+3] = 255;
+  }
+  ctx.putImageData(imgData,0,0);
+}
+</script>
+</body>
+</html>

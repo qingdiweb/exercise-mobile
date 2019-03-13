@@ -1,0 +1,4 @@
+/*目录下做题*/
+topicCont.controller('topicClientDownload',['$scope','$timeout','$stateParams','$ionicSlideBoxDelegate','$ionicScrollDelegate','$ionicGesture','$ionicModal',function($scope,$timeout,$stateParams,$ionicSlideBoxDelegate,$ionicScrollDelegate,$ionicGesture,$ionicModal){
+        console.log('客户端下载')    
+}]);

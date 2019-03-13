@@ -1,0 +1,449 @@
+<html ng-app="huazilive">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="wap-font-scale" content="no">
+    <title>错题本-解析</title>
+    <link href="css/ionic.css" rel="stylesheet">
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/topic-cont.css" rel="stylesheet">
+    <script src="js/angular/angular.min.js"></script>
+    <script src="js/angular-ui/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="js/ionic.bundle.min.js"></script>
+    <script type="text/javascript" src="js/zepto.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <!-- 题目内容 -->
+    <script type="text/javascript" src="js/topic-cont/controller-wrong-parse.js"></script>
+    <script type="text/javascript" src="js/topic-cont/directive-wrong-parse.js"></script>
+    <script type="text/javascript" src="js/topic-cont/service.js"></script>
+</head>
+<body ng-controller="topicWrongParseCont" topic-wrongparse-cont-directive>
+    <div class="topicCont" overflow-scroll="true">
+        <div class="wrongCollectLoding fl"  ng-if="isLoading">
+            <div class="pa loading-icon">
+                <span class="loading-text">加载中</span>
+                <ion-spinner icon="ios" style='display: block;text-align:center;'></ion-spinner>
+            </div>
+        </div>
+        
+        <div ng-if="isNomore" style="width: 100%;text-align: center;color:#707477;">没有更多哦~</div>
+   <!--      <h1 class="head-nav" ng-if="navMask">
+            <span class="title f14 fl wordbreak" ng-bind="chapterName"></span>
+            <p class="current-topic f15 fr"><span class="first-view-page" ng-bind="currentTopic"></span>/<span ng-bind="wrongTopicNum"></span></p>
+        </h1> -->
+        <ion-slide-box  class="view-slide-box" on-slide-changed="slideHasChanged($index,$event)" on-release="touchend()"  delegate-handle="wrongstart">
+          <ion-slide class="directory-slide first-view-slide" ng-repeat="wrongContList in wrongCont" data-durationSecond="{{durationSecond}}" data-questionId="{{wrongContList.questionId}}" data-isStart="{{wrongContList.questionInfo.isCollected}}" data-page="{{indexQuestion}}"  data-swipepage="{{$index}}" data-add="{{wrongContList.isAdd}}" on-swipe-left="swipeLeft($event)"  on-swipe-right="swipeRight($event)">
+            <!-- 单选题 -->
+            <div class="pa directory-topic-slide-box" ng-if="wrongContList.questionInfo.type==0">
+                <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                    <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public">
+                        <p class="title-details f15"><span class="topic-type dib f14">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                        <div class="topic-options"  data-exerciseId="{{wrongContList.id}}" data-answer="{{wrongContList.questionInfo.answer}}">
+                            <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.questionInfo.option">
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">
+                                    <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
+                                    <i class="pa" ng-class="wrongContList.questionInfo.answer==optionsel.title ? 'parse-right' : ''" ng-if="wrongContList.questionInfo.answer==optionsel.title"></i>
+                                    <i class="pa" ng-class="wrongContList.stuAnswer==optionsel.title&&wrongContList.stuAnswer!=wrongContList.questionInfo.answer ? 'parse-error' : ''"></i>
+                                </span>
+                                <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                    
+                                </p>
+                            </div>
+                        </div>
+                        <!-- 解析 -->
+                        <div class="topic-parse w fl" >
+                            <h2 class="topic-test-parsing-title w fl f14">
+                                <span class="db tc">试题解析</span>
+                            </h2>
+                            <div class="right-answer w fl">
+                                <span class="fl db f15">正确答案</span><span class="right-answer-option fl dib f16" ng-bind-html="wrongContList.questionInfo.answerDetail|uppercase"></span>
+                            </div>
+                            <div class="fighting-pic fl f14 w" ng-if="wrongContList.stuAnswer!=wrongContList.questionInfo.answer">
+                                <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                            </div>
+                            <div class="parse-cont-box fl w">
+                                <p class="parse-cont-title w f15">解析</p>
+                                <div class="parse-cont w f15" ng-bind-html="wrongContList.questionInfo.answerParsing">
+                                    
+                                </div>
+                            </div>
+                            <div class="examination-site-box fl w">
+                                <span class="examination-site-title fl f15">考点</span>
+                                <p class="examination-site fr">
+                                    <span class="fl f12" ng-repeat="parseKnow in wrongContList.questionInfo.parseKnowledges">{{parseKnow}}</span>
+                                </p>
+                            </div>
+                            <div class="title-delete fl f12" on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                <span class="fl"></span>移除
+                            </div>
+                            <div class="title-feedback fr f12" on-touch="feedbackPopup($event)" data-questionId="{{wrongContList.questionId}}">
+                                题目反馈
+                            </div>
+                            <div style="float:left;width: 100%;height: 1rem;"></div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>
+            <!-- 多选题 -->
+            <div class="directory-topic-slide-box" ng-if="wrongContList.questionInfo.type==1">
+                <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                    <div class="directory-multi-topic-cont directory-checkout-topic-cont directory-topic-public">
+                         <p class="title-details f15"><span class="topic-type dib f14">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                        <div class="topic-options"  data-exerciseId="{{wrongContList.id}}" data-answer="{{wrongContList.questionInfo.answer}}">
+                            <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.questionInfo.option">
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">
+                                    <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
+                                    <i class="pa" ng-class="wrongContList.questionInfo.answer.search(optionsel.title)!=-1 ? 'parse-right' : ''" ng-if="wrongContList.questionInfo.answer.search(optionsel.title)!=-1"></i>
+                                    <i class="pa" ng-class="wrongContList.stuAnswer.search(optionsel.title)!=-1 ? 'parse-error' : ''" ng-if="wrongContList.stuAnswer.search(optionsel.title)!=-1"></i>
+                                </span>
+                                <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                    
+                                </p>
+                            </div>
+                        </div>
+                        <!-- 解析 -->
+                        <div class="topic-parse w fl" >
+                            <h2 class="topic-test-parsing-title w fl f14">
+                                <span class="db tc">试题解析</span>
+                            </h2>
+                            <div class="right-answer w fl">
+                                <span class="fl db f15">正确答案</span><span class="right-answer-option fl dib f16" ng-bind-html="wrongContList.questionInfo.answerDetail|uppercase"></span>
+                            </div>
+                            <div class="fighting-pic fl f14 w" ng-if="wrongContList.stuAnswer!=wrongContList.questionInfo.answer">
+                                <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                            </div>
+                            <div class="parse-cont-box fl w">
+                                <p class="parse-cont-title w f15">解析</p>
+                                <div class="parse-cont w f15" ng-bind-html="wrongContList.questionInfo.answerParsing">
+                                    
+                                </div>
+                            </div>
+                            <div class="examination-site-box fl w">
+                                <span class="examination-site-title fl f15">考点</span>
+                                <p class="examination-site fr">
+                                    <span class="fl f12" ng-repeat="parseKnow in wrongContList.questionInfo.parseKnowledges">{{parseKnow}}</span>
+                                </p>
+                            </div>
+                            <div class="title-delete fl f12"  on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                <span class="fl"></span>移除
+                            </div>
+                            <div class="title-feedback fr f12" on-touch="feedbackPopup($event)" data-questionId="{{wrongContList.questionId}}">
+                                题目反馈
+                            </div>
+                            <div style="float:left;width: 100%;height: 1rem;"></div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>
+            <!-- 填空题和问答题 -->
+            <div class="directory-topic-slide-box" ng-if="wrongContList.questionInfo.type==2||wrongContList.questionInfo.type==3">
+                <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                    <div class="directory-fillUp-topic-cont pr directory-topic-public">
+                        <p class="title-details f15"><span class="topic-type dib f14">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.questionInfo.title"></span></p>
+                         <div class="topic-fillUp f14">
+                            本题目不支持作答,可在交卷后核对答案并查看解析
+                        </div>
+                        <!-- 解析 -->
+                        <div class="topic-parse w fl" >
+                            <h2 class="topic-test-parsing-title w fl f14">
+                                <span class="db tc">试题解析</span>
+                            </h2>
+                            <div class="right-answer w fl">
+                                <span class="fl db f15">正确答案</span><span class="right-answer-option fl dib f16" ng-bind-html="wrongContList.questionInfo.answerDetail|uppercase"></span>
+                            </div>
+                           <!--  <div class="fighting-pic fl f14 w" ng-if="wrongContList.questionInfo.studentExerciseAnswerInfo.answer!=wrongContList.questionInfo.answer">
+                                <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                            </div> -->
+                            <div class="parse-cont-box fl w">
+                                <p class="parse-cont-title w f15">解析</p>
+                                <div class="parse-cont w f15" ng-bind-html="wrongContList.questionInfo.answerParsing">
+                                    
+                                </div>
+                            </div>
+                            <div class="examination-site-box fl w">
+                                <span class="examination-site-title fl f15">考点</span>
+                                <p class="examination-site fr">
+                                    <span class="fl f12" ng-repeat="parseKnow in wrongContList.questionInfo.parseKnowledges">{{parseKnow}}</span>
+                                </p>
+                            </div>
+                            <div class="title-delete fl f12" on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                <span class="fl"></span>移除
+                            </div>
+                            <div class="title-feedback fr f12" on-touch="feedbackPopup($event)" data-questionId="{{wrongContList.questionId}}">
+                                题目反馈
+                            </div>
+                            <div style="float:left;width: 100%;height: 1rem;"></div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>
+            <!-- 多问题 -->
+            <div class="directory-topic-slide-box doubleview-directory-topic-slide-box graybgf" ng-if="wrongContList.questionInfo.type==4">
+                    <div class="directory-readComprehen-topic-cont pr directory-topic-public">
+                        <div class="title-details" style="width: 100%;height: 100%;">
+                             <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 8rem;" on-scroll="$event.preventDefault()" >
+                                <div>
+                                    <p ng-bind-html="wrongContList.questionInfo.title"></p>
+                                    <div class="blank-box"></div> 
+                                </div>
+                              </ion-scroll>
+                        </div>
+                        <div class="pa directory-read-multiple-choice doubleview-directory-read-multiple-choice">
+                            <span class="db pa updownMoveBtn">
+                                <i class="db pa"></i>
+                            </span>
+                            <div>
+                                <h1 class="head-nav">
+                                    <span class="title doubleViewTitle f14 fl wordbreak">多问题</span>
+                                    <p class="current-topic doubleViewCurrentTopic f15 fr"><span class="first-view-page" ng-bind="doubleViewTopic"></span>/<span ng-bind="doubleViewTopicNum"></span></p>
+                                </h1>
+                                <ion-slide-box class="double-view-slide" on-slide-changed="slideReadChanged($index,$event)" delegate-handle="viewwrongstart">
+                                    <ion-slide class="directory-slide" ng-repeat="questionInfoList in wrongContList.questionInfo.questionInfoList" data-questionId="{{questionInfoList.id}}">
+                                        <!-- 单选题 -->
+                                        <div class="pa directory-topic-slide-box" ng-if="questionInfoList.type==0">
+                                            <ion-scroll zooming="false" direction="y" style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                                                <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public">
+                                                    <p class="title-details f15"><span class="topic-type dib f14">(单选题)</span><span class="topic-type-txt" ng-bind-html="questionInfoList.title"></span></p>
+                                                    <div class="topic-options"  data-exerciseId="{{questionInfoList.paperQuestionId}}" data-answer="{{questionInfoList.answer}}">
+                                                        <div class="clearfix pr topic-options-box" on-touch="onRadioTouch($event)" ng-repeat="optionsel in questionInfoList.option">
+                                                            <b class="pa topic-options-mask"></b>
+                                                            <span class="fl dib pr topic-options-letter">
+                                                                <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
+                                                                <i class="pa" ng-class="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1 ? 'parse-right' : ''" ng-if="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1"></i>
+                                                                <i class="pa" ng-class="questionInfoList.questionInfo.stuAnswer.search(optionsel.title)!=-1 ? 'parse-error' : ''" ng-if="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1"></i>
+                                                            </span>
+                                                            <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                                                
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 解析 -->
+                                                    <div class="topic-parse w fl" >
+                                                        <h2 class="topic-test-parsing-title w fl f14">
+                                                            <span class="db tc">试题解析</span>
+                                                        </h2>
+                                                        <div class="right-answer w fl">
+                                                            <span class="fl db f15">正确答案</span><span class="right-answer-option fl db f16" ng-bind="questionInfoList.answer|uppercase"></span>
+                                                        </div>
+                                                        <div class="fighting-pic fl f14 w" ng-if="questionInfoList.questionInfo.answer!=questionInfoList.questionInfo.stuAnswer">
+                                                            <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                                                        </div>
+                                                        <div class="parse-cont-box fl w">
+                                                            <p class="parse-cont-title w f15">解析</p>
+                                                            <div class="parse-cont w f15" ng-bind-html="questionInfoList.answerParsing">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="examination-site-box fl w">
+                                                            <span class="examination-site-title fl f15">考点</span>
+                                                            <p class="examination-site fr">
+                                                                <span class="fl f12" ng-repeat="parseKnow in questionInfoList.parseKnowledges">{{parseKnow}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="title-delete fl f12" on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                                            <span class="fl"></span>移除
+                                                        </div>
+                                                        <div class="title-feedback fr f12" on-tap="feedbackPopup($event)" data-questionId="{{questionInfoList.id}}">
+                                                            题目反馈
+                                                        </div>
+                                                        <div style="float:left;width: 100%;height: 1rem;"></div>
+                                                    </div>
+                                                </div>
+                                            </ion-scroll>
+                                        </div>
+                                        <!-- 多选题 -->
+                                        <div class="directory-topic-slide-box" ng-if="questionInfoList.type==1">
+                                            <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                                                <div class="directory-multi-topic-cont directory-checkout-topic-cont directory-topic-public">
+                                                    <p class="title-details f15"><span class="topic-type dib f14">(多选题)</span><span class="topic-type-txt" ng-bind-html="questionInfoList.title"></span></p>
+                                                    <div class="topic-options"  data-exerciseId="{{questionInfoList.paperQuestionId}}" data-answer="{{questionInfoList.answer}}">
+                                                        <div class="clearfix pr topic-options-box" on-tap="onCheckTouch($event)" ng-repeat="optionsel in questionInfoList.option">
+                                                            <b class="pa topic-options-mask"></b>
+                                                            <span class="fl dib pr topic-options-letter">
+                                                                <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
+                                                                <i class="pa" ng-class="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1 ? 'parse-right' : ''" ng-if="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1"></i>
+                                                                <i class="pa" ng-class="questionInfoList.questionInfo.stuAnswer.search(optionsel.title)!=-1 ? 'parse-error' : ''" ng-if="questionInfoList.questionInfo.answer.search(optionsel.title)!=-1"></i>
+                                                            </span>
+                                                            <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                                                
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- 解析 -->
+                                                    <div class="topic-parse w fl" >
+                                                        <h2 class="topic-test-parsing-title w fl f14">
+                                                            <span class="db tc">试题解析</span>
+                                                        </h2>
+                                                        <div class="right-answer w fl">
+                                                            <span class="fl db f15">正确答案</span><span class="right-answer-option fl db f16" ng-repeat="ParseAnswer in questionInfoList.ParseAnswer|uppercase" ng-bind="ParseAnswer"></span>
+                                                        </div>
+                                                        <div class="fighting-pic fl f14 w" ng-if="questionInfoList.questionInfo.answer!=questionInfoList.questionInfo.stuAnswer">
+                                                            <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                                                        </div>
+                                                        <div class="parse-cont-box fl w">
+                                                            <p class="parse-cont-title w f15">解析</p>
+                                                            <div class="parse-cont w f15" ng-bind-html="questionInfoList.answerParsing">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="examination-site-box fl w">
+                                                            <span class="examination-site-title fl f15">考点</span>
+                                                            <p class="examination-site fr">
+                                                                <span class="fl f12" ng-repeat="parseKnow in questionInfoList.parseKnowledges">{{parseKnow}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="title-delete fl f12" on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                                            <span class="fl"></span>移除
+                                                        </div>
+                                                        <div class="title-feedback fr f12"  on-tap="feedbackPopup($event)" data-questionId="{{questionInfoList.id}}">
+                                                            题目反馈
+                                                        </div>
+                                                        <div style="float:left;width: 100%;height: 1rem;"></div>
+                                                    </div>
+                                                </div>
+                                            </ion-scroll>
+                                        </div>
+                                        <!-- 填空题和问答题 -->
+                                        <div class="directory-topic-slide-box" ng-if="questionInfoList.type==2||questionInfoList.type==3">
+                                            <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                                                <div class="directory-fillUp-topic-cont pr directory-topic-public">
+                                                    <p class="title-details f15"><span class="topic-type dib f14" ng-if="questionInfoList.type==2">(填空题)</span><span class="topic-type dib f14" ng-if="questionInfoList.type==3">(简答题)</span><span class="topic-type-txt" ng-bind-html="questionInfoList.title"></span></p>
+                                                    <!-- <div class="topic-fillUp f12">
+                                                        <p class="annotations-describe">本道题目不支持作答，可在交卷后核对答案并查看解析</p>
+                                                        <button class="look-anwser-btn">查看答案</button>
+                                                        <span class="db">3.141523424</span>
+                                                     </div>
+                                                     <div class="topic-fillUp-rigthError-btn">
+                                                            <a href="javascript:;" class="fl correct-btn"><span>答对了</span></a>
+                                                            <a href="javascript:;" class="fl error-btn"><span>答错了</span></a>
+                                                     </div> -->
+                                                     <div class="topic-fillUp f14">
+                                                        本题目不支持作答,可在交卷后核对答案并查看解析
+                                                    </div>
+                                                    <!-- 解析 -->
+                                                    <div class="topic-parse w fl" >
+                                                        <h2 class="topic-test-parsing-title w fl f14">
+                                                            <span class="db tc">试题解析</span>
+                                                        </h2>
+                                                        <div class="right-answer w fl">
+                                                            <span class="fl db f15">正确答案</span><span class="right-answer-option fl db f16" ng-bind="questionInfoList.answer|uppercase"></span>
+                                                        </div>
+                                                        <div class="fighting-pic fl f14 w" ng-if="questionInfoList.studentExerciseAnswerInfo.answer!=questionInfoList.answer">
+                                                            <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
+                                                        </div>
+                                                        <div class="parse-cont-box fl w">
+                                                            <p class="parse-cont-title w f15">解析</p>
+                                                            <div class="parse-cont w f15" ng-bind-html="questionInfoList.answerParsing">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="examination-site-box fl w">
+                                                            <span class="examination-site-title fl f15">考点</span>
+                                                            <p class="examination-site fr">
+                                                                <span class="fl f12" ng-repeat="parseKnow in questionInfoList.parseKnowledges">{{parseKnow}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="title-delete fl f12" on-touch="delParse($event)" data-questionId="{{wrongContList.questionId}}">
+                                                            <span class="fl"></span>移除
+                                                        </div>
+                                                        <div class="title-feedback fr f12" on-tap="feedbackPopup($event)" data-questionId="{{questionInfoList.id}}">
+                                                            题目反馈
+                                                        </div>
+                                                        <div style="float:left;width: 100%;height: 1rem;"></div>
+                                                    </div>
+                                                </div>
+                                            </ion-scroll>
+                                        </div>
+                                    </ion-slide>
+                                </ion-slide-box>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- 短听力 -->
+            <div class="directory-topic-slide-box" ng-if="wrongContList.questionInfo.type==5">
+                <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                    <div class="directory-multi-topic-cont directory-hearing-topic-cont pr directory-topic-public">
+                        <audio class="hearing-auto" controls="">
+                            <source src="http://www.wtabcd.cn/article/sort04/sort035" type="audio/mpeg" />
+                        </audio>
+                        <p class="title-details f15"><span class="topic-type dib f14">(听力题)</span>what are the speakers talking about?</p>
+                        <div class="topic-options">
+                            <div class="clearfix pr topic-options-box" >
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">A</span>
+                                <p class="f15 topic-options-details">
+                                    工程之大
+                                </p>
+                            </div>
+                            <div class="clearfix pr topic-options-box" >
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">B</span>
+                                <p class="f15 topic-options-details">
+                                    工程之大
+                                </p>
+                            </div>
+                            <div class="clearfix pr topic-options-box" >
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">C</span>
+                                <p class="f15 topic-options-details">
+                                    工程之大
+                                </p>
+                            </div>
+                            <div class="clearfix pr topic-options-box" >
+                                <b class="pa topic-options-mask"></b>
+                                <span class="fl dib pr topic-options-letter">D</span>
+                                <p class="f15 topic-options-details">
+                                    工程之大
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>        
+            <!-- 长听力 -->
+            <div class="directory-topic-slide-box" ng-if="wrongContList.questionInfo.type==6">
+                <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 100%" on-scroll="$event.preventDefault()">
+                    <div class="directory-multi-topic-cont directory-longhearing-topic-cont pr directory-topic-public">
+                        <audio class="hearing-auto" controls="">
+                            <source src="http://www.wtabcd.cn/article/sort04/sort035" type="audio/mpeg" />
+                        </audio>
+                        <p class="title-details f15"><span class="topic-type dib f14">(听力题)</span>what are the speakers talking about?</p>
+                        <div class="pa directory-read-multiple-choice">
+                            <span class="db pa updownMoveBtn"></span>
+                            <div>
+                                <h1 class="head-nav doubleView-head-nav">
+                                    <span class="title f15 fl">1.1函数与基本函数</span>
+                                    <p class="current-topic f15 fr"><span ng-bind="currentRead">1</span>/<span>5</span></p>
+                                </h1>
+                                <ion-slide-box class="double-view-slide" on-slide-changed="slideReadChanged($index,$event)">
+                                    <ion-slide>
+                                        第一道题
+                                    </ion-slide>
+                                    <ion-slide>
+                                        第二道题
+                                    </ion-slide>
+                                    <ion-slide>
+                                        第三道题
+                                    </ion-slide>
+                                    <ion-slide>
+                                        第四道题
+                                    </ion-slide>
+                                    <ion-slide>
+                                        第五道题
+                                    </ion-slide>
+                                </ion-slide-box>
+                            </div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>        
+          </ion-slide> 
+        </ion-slide-box>
+    </div>
+    <script type="text/javascript">
+    </script>
+    </body>
+</html>

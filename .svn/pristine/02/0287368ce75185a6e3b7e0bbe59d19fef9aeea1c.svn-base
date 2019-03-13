@@ -1,0 +1,38 @@
+//花籽直播-练习模块
+var huazilive = angular.module('huazilive', ['ionic','topicCont']);
+/*对应相应模块*/
+var topicCont = angular.module('topicCont', []); //题内容模块
+
+/*rem计算*/
+(function (doc, win) {
+	var docEl = doc.documentElement,
+	    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+	    recalc = function () {
+	        var clientWidth = docEl.clientWidth;
+	        if (!clientWidth) return;
+	        if(clientWidth>=640){
+	            docEl.style.fontSize = '100px';
+	        }else{
+	        	docEl.style.fontSize = '100px';
+	            //docEl.style.fontSize = (100 * (clientWidth / 640)).toFixed(2) + 'px';
+	        }
+	    };
+
+	if (!doc.addEventListener) return; 
+	win.addEventListener(resizeEvt, recalc, false);
+	doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+ /*获取地址栏参数方法*/
+function GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  decodeURI(r[2]); return null;
+}
+
+//将值转换为特权所接受并能安全地使用“ng-bind-html”
+/*huazilive.filter('to_trusted', ['$sce', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    }
+}]);*/
