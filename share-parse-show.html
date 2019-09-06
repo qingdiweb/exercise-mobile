@@ -22,7 +22,7 @@
             <!-- 单选题 -->
             <div class="pa directory-topic-slide-box" ng-if="exerciseInfoList.type==0">
                     <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public">
-                        <p class="title-details f15"><span class="topic-type dib f14" ng-bind="'(单选题)'"></span><span class="topic-type-txt" ng-bind-html="exerciseInfoList.title"></span></p>
+                        <p class="title-details f15"><span class="topic-type dib f14" ng-bind="'(单选题)'"></span><span class="topic-type-txt" ng-bind-html="exerciseInfoList.title| to_trusted"></span></p>
                         <div class="topic-options"  data-exerciseId="{{exerciseInfoList.id}}" data-answer="{{exerciseInfoList.answer}}">
                             <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in exerciseInfoList.option">
                                 <b class="pa topic-options-mask"></b>
@@ -30,7 +30,7 @@
                                     <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
                                     <i class="pa"></i>
                                 </span>
-                                <p class="f15 topic-options-details" ng-bind-html="optionsel.option">
+                                <p class="f15 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                     
                                 </p>
                             </div>
@@ -47,7 +47,7 @@
                                
                                 <div class="parse-cont-box fl w" ng-if="exerciseInfoList.answerParsing!=''&&exerciseInfoList.answerParsing!=null">
                                     <p class="parse-cont-title w f15" ng-bind="'解析'"></p>
-                                    <div class="parse-cont w f15" ng-bind-html="exerciseInfoList.answerParsing">
+                                    <div class="parse-cont w f15" ng-bind-html="exerciseInfoList.answerParsing| to_trusted">
                                         
                                     </div>
                                 </div>

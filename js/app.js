@@ -2,7 +2,8 @@
 var huazilive = angular.module('huazilive', ['ionic','topicCont']);
 /*对应相应模块*/
 var topicCont = angular.module('topicCont', []); //题内容模块
-
+angular.module('topicCont') .filter('to_trusted', ['$sce',
+    function($sce){ return function(text) { return $sce.trustAsHtml(text); }; }]);
 /*rem计算*/
 (function (doc, win) {
 	var docEl = doc.documentElement,

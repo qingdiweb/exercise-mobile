@@ -24,7 +24,10 @@
             <div class="pa directory-topic-slide-box" ng-if="exerciseInfoList.type==0">
                     <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public">
                         <div class="hidden-box">
-                            <p class="title-details f15"><span class="topic-type dib f14" ng-bind="'(单选题)'"></span><span class="topic-type-txt" ng-bind-html="exerciseInfoList.title"></span></p>
+                            <p class="title-details f15">
+                                <span class="topic-type dib f14" ng-bind="'(单选题)'"></span>
+                                <span class="topic-type-txt" ng-bind-html="exerciseInfoList.title| to_trusted"></span>
+                            </p>
                             <div class="topic-options"  data-exerciseId="{{exerciseInfoList.id}}" data-answer="{{exerciseInfoList.answer}}">
                                 <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in exerciseInfoList.option">
                                     <b class="pa topic-options-mask"></b>

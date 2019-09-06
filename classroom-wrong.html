@@ -38,7 +38,7 @@
                                         <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.option">
                                             <b class="pa topic-options-mask"></b>
                                             <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
-                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                 
                                             </p>
                                         </div>
@@ -53,7 +53,7 @@
                                         <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.option">
                                             <b class="pa topic-options-mask"></b>
                                             <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
-                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                 
                                             </p>
                                         </div>
@@ -85,7 +85,7 @@
                                     <div class="title-details" style="width: 100%;;">
                                         <span><span>{{$index+1+'、'}}</span><span class="topic-type dib f18">({{wrongContList.category}})</span></span>
                                             <div>
-                                                <p ng-bind-html="wrongContList.title"></p>
+                                                <p ng-bind-html="wrongContList.title| to_trusted"></p>
                                                 <div class="blank-box"></div> 
                                             </div>
                                     </div>

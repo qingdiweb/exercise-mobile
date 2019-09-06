@@ -34,7 +34,7 @@
                             <!-- 单选题 -->
                             <div class="directory-topic-slide-box wrong-topic-slide-box mb1 bgf" ng-if="wrongContList.type==0">
                                 <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public mt0">
-                                    <p class="title-details f18"><span class="topic-type dib f18">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title"></span></p>
+                                    <p class="title-details f18"><span class="topic-type dib f18">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title| to_trusted"></span></p>
                                     <div class="topic-options"  data-paperId="{{wrongContList.id}}" data-answer="{{wrongContList.answer}}">
                                         <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.option">
                                             <b class="pa topic-options-mask"></b>
@@ -49,12 +49,12 @@
                             <!-- 多选题 -->
                             <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb1 bgf" ng-if="wrongContList.type==1">
                                 <div class="directory-multi-topic-cont directory-checkout-topic-cont directory-topic-public mt0">
-                                     <p class="title-details f18"><span class="topic-type dib f18">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title"></span></p>
+                                     <p class="title-details f18"><span class="topic-type dib f18">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title| to_trusted"></span></p>
                                     <div class="topic-options" data-paperId="{{wrongContList.id}}" data-answer="{{wrongContList.answer}}">
                                         <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongContList.option">
                                             <b class="pa topic-options-mask"></b>
                                             <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
-                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                 
                                             </p>
                                         </div>
@@ -64,7 +64,7 @@
                             <!-- 填空题 -->
                             <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb1 bgf"  ng-if="wrongContList.type==2">
                                 <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
-                                    <p class="title-details f18"><span class="topic-type dib f18">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title"></span></p>
+                                    <p class="title-details f18"><span class="topic-type dib f18">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title| to_trusted"></span></p>
                                    <!--   <div class="topic-fillUp f18">
                                       本题目不支持作答,可在交卷后核对答案并查看解析
                                                                        </div> -->
@@ -73,7 +73,7 @@
                             <!-- 问答题 -->
                             <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb1 bgf" ng-if="wrongContList.type==3">
                                 <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
-                                    <p class="title-details f18"><span class="topic-type dib f18">(问答题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title"></span></p>
+                                    <p class="title-details f18"><span class="topic-type dib f18">(问答题)</span><span class="topic-type-txt" ng-bind-html="wrongContList.title| to_trusted"></span></p>
                                     
                                     <!--  <div class="topic-fillUp f18">
                                        本题目不支持作答,可在交卷后核对答案并查看解析
@@ -86,7 +86,7 @@
                                     <div class="title-details" style="width: 100%;;">
                                             <span class="topic-type dib f18">({{wrongContList.category}})</span>
                                             <div>
-                                                <p ng-bind-html="wrongContList.title"></p>
+                                                <p ng-bind-html="wrongContList.title| to_trusted"></p>
                                                 <div class="blank-box"></div> 
                                             </div>
                                     </div>
@@ -100,12 +100,12 @@
                         <!-- 单选题 -->
                         <div class="directory-topic-slide-box wrong-topic-slide-box mb10 bgf" ng-if="wrongSecList.questionInfo.type==0">
                             <div class="directory-multi-topic-cont directory-radio-topic-cont directory-topic-public mt0">
-                                <p class="title-details f18"><span class="topic-type dib f18">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title"></span></p>
+                                <p class="title-details f18"><span class="topic-type dib f18">(单选题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title| to_trusted"></span></p>
                                 <div class="topic-options"  data-paperId="{{wrongSecList.id}}" data-answer="{{wrongSecList.questionInfo.answer}}">
                                     <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongSecList.questionInfo.option">
                                         <b class="pa topic-options-mask"></b>
                                         <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
-                                        <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                        <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                             
                                         </p>
                                     </div>
@@ -115,12 +115,12 @@
                         <!-- 多选题 -->
                         <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf" ng-if="wrongSecList.questionInfo.type==1">
                             <div class="directory-multi-topic-cont directory-checkout-topic-cont directory-topic-public mt0">
-                                 <p class="title-details f18"><span class="topic-type dib f18">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title"></span></p>
+                                 <p class="title-details f18"><span class="topic-type dib f18">(多选题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title| to_trusted"></span></p>
                                 <div class="topic-options" data-paperId="{{wrongSecList.id}}" data-answer="{{wrongSecList.questionInfo.answer}}">
                                     <div class="clearfix pr topic-options-box"  ng-repeat="optionsel in wrongSecList.questionInfo.option">
                                         <b class="pa topic-options-mask"></b>
                                         <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"></span>
-                                        <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                        <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                             
                                         </p>
                                     </div>
@@ -130,7 +130,7 @@
                         <!-- 填空题 -->
                         <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf"  ng-if="wrongSecList.questionInfo.type==2">
                             <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
-                                <p class="title-details f18"><span class="topic-type dib f18">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title"></span></p>
+                                <p class="title-details f18"><span class="topic-type dib f18">(填空题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title| to_trusted"></span></p>
                                 <!--  <div class="topic-fillUp f18">
                                    本题目不支持作答,可在交卷后核对答案并查看解析
                                                                 </div> -->
@@ -139,7 +139,7 @@
                         <!-- 问答题 -->
                         <div class="directory-topic-slide-box wrong-topic-slide-box mt0 mb10 bgf" ng-if="wrongSecList.questionInfo.type==3">
                             <div class="directory-fillUp-topic-cont pr directory-topic-public mt0">
-                                <p class="title-details f18"><span class="topic-type dib f18">(问答题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title"></span></p>
+                                <p class="title-details f18"><span class="topic-type dib f18">(问答题)</span><span class="topic-type-txt" ng-bind-html="wrongSecList.questionInfo.title| to_trusted"></span></p>
                                 
                                  <!-- <div class="topic-fillUp f18">
                                     本题目不支持作答,可在交卷后核对答案并查看解析
@@ -152,7 +152,7 @@
                                 <div class="title-details" style="width: 100%;;">
                                         <span class="topic-type dib f18">({{wrongSecList.questionInfo.category}})</span>
                                         <div>
-                                            <p ng-bind-html="wrongSecList.questionInfo.title"></p>
+                                            <p ng-bind-html="wrongSecList.questionInfo.title| to_trusted"></p>
                                             <div class="blank-box"></div> 
                                         </div>
                                 </div>

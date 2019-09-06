@@ -40,7 +40,7 @@
                             <div class="clearfix pr topic-options-box" on-tap="onRadioTouch($event)" ng-repeat="optionsel in exerciseInfoList.questionInfo.option">
                                 <b class="pa topic-options-mask"></b>
                                 <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title" ng-class="{'selected':!!exerciseInfoList.questionInfo.studentExerciseAnswerInfo&&exerciseInfoList.questionInfo.studentExerciseAnswerInfo.answer==optionsel.title}"></span>
-                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                     
                                 </p>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="clearfix pr topic-options-box" on-tap="onCheckTouch($event)" ng-repeat="optionsel in exerciseInfoList.questionInfo.option">
                                 <b class="pa topic-options-mask"></b>
                                 <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title" ng-class="{'selected':!!exerciseInfoList.questionInfo.studentExerciseAnswerInfo&&exerciseInfoList.questionInfo.studentExerciseAnswerInfo.answer.search(optionsel.title)!=-1}"></span>
-                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                     
                                 </p>
                             </div>
@@ -86,7 +86,7 @@
                         <div class="title-details" style="width: 100%;height: 100%;">
                              <ion-scroll zooming="false" direction="y"  style="width: 100%;height: 8rem;" on-scroll="$event.preventDefault()">
                                 <div>
-                                    <p ng-bind-html="exerciseInfoList.questionInfo.title"></p>
+                                    <p ng-bind-html="exerciseInfoList.questionInfo.title| to_trusted"></p>
                                     <div class="blank-box"></div> 
                                 </div>
                               </ion-scroll>
@@ -111,7 +111,7 @@
                                                             <div class="clearfix pr topic-options-box" on-tap="viewRadioTouch($event)" ng-repeat="optionsel in questionInfoList.option">
                                                                 <b class="pa topic-options-mask double-view-mask"></b>
                                                                 <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title"  ng-class="{'selected':!!questionInfoList.studentExerciseAnswerInfo&&questionInfoList.studentExerciseAnswerInfo.answer==optionsel.title}"></span>
-                                                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                                     
                                                                 </p>
                                                             </div>
@@ -129,7 +129,7 @@
                                                             <div class="clearfix pr topic-options-box" on-tap="onCheckTouch($event)" ng-repeat="optionsel in questionInfoList.option">
                                                                 <b class="pa topic-options-mask"></b>
                                                                 <span class="fl dib pr topic-options-letter" ng-bind="optionsel.title" ng-class="{'selected':!!questionInfoList.studentExerciseAnswerInfo&&questionInfoList.studentExerciseAnswerInfo.answer.search(optionsel.title)!=-1}"></span>
-                                                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                                     
                                                                 </p>
                                                             </div>

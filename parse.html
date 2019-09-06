@@ -40,7 +40,7 @@
                                     <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
                                     <i class="pa" ng-class="exerciseInfoList.questionInfo.studentExerciseAnswerInfo.userAnswer.search(optionsel.title)!=-1 ? exerciseInfoList.questionInfo.ParseAnswer.search(optionsel.title)!=-1 ? 'parse-right' : 'parse-error' : ''"></i>
                                 </span>
-                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                     
                                 </p>
                             </div>
@@ -61,7 +61,7 @@
                             </div> -->
                             <div class="parse-cont-box fl w" ng-if="exerciseInfoList.questionInfo.answerParsing!=''&&exerciseInfoList.questionInfo.answerParsing!=null">
                                 <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing">
+                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing| to_trusted">
                                     
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
                                     <i class="pa" ng-class="exerciseInfoList.questionInfo.studentExerciseAnswerInfo.userAnswer.search(optionsel.title)!=-1 ? exerciseInfoList.questionInfo.ParseAnswer.search(optionsel.title)!=-1 ? 'parse-right' : 'parse-error' : ''"></i>
                                 </span>
-                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                     
                                 </p>
                             </div>
@@ -112,7 +112,7 @@
                            </div> -->
                             <div class="parse-cont-box fl w" ng-if="exerciseInfoList.questionInfo.answerParsing!=''&&exerciseInfoList.questionInfo.answerParsing!=null">
                                 <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing">
+                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing| to_trusted">
                                     
                                 </div>
                             </div>
@@ -153,14 +153,14 @@
                                 <span class="db tc" ng-bind="'试题解析'"></span>
                             </h2>
                             <div class="right-answer w fl">
-                                <span class="fl f18 mb10" ng-bind="'正确答案'"></span><span class="right-answer-option  f18" ng-bind-html="exerciseInfoList.questionInfo.answerDetail"></span>
+                                <span class="fl f18 mb10" ng-bind="'正确答案'"></span><span class="right-answer-option  f18" ng-bind-html="exerciseInfoList.questionInfo.answerDetail| to_trusted"></span>
                             </div>
                             <!-- <div class="fighting-pic fl f18 w">
                                 <div class="fighting-pic-box"><span class="fl"></span>这个知识点还需要强化呀，加油!</div>
                             </div> -->
                             <div class="parse-cont-box fl w" ng-if="exerciseInfoList.questionInfo.answerParsing!=''&&exerciseInfoList.questionInfo.answerParsing!=null">
                                 <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing">
+                                <div class="parse-cont w f18" ng-bind-html="exerciseInfoList.questionInfo.answerParsing| to_trusted">
                                     
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                         <div class="title-details" style="width: 100%;height: 100%;">
                              <ion-scroll direction="y"  style="width: 100%;height: 8rem;" on-scroll="$event.stopPropagation()">
                                 <div>
-                                    <p ng-bind-html="exerciseInfoList.questionInfo.title"></p>
+                                    <p ng-bind-html="exerciseInfoList.questionInfo.title| to_trusted"></p>
                                     <div class="blank-box"></div> 
                                 </div>
                               </ion-scroll>
@@ -212,7 +212,7 @@
                                                                 <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
                                                                 <i class="pa" ng-class="questionInfoList.studentExerciseAnswerInfo.answer.search(optionsel.title)!=-1 ? questionInfoList.answer.search(optionsel.title)!=-1 ? 'parse-right' : 'parse-error' : ''"></i>                                                         
                                                             </span>
-                                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                                 
                                                             </p>
                                                         </div>
@@ -233,7 +233,7 @@
                                                      </div> -->
                                                         <div class="parse-cont-box fl w" ng-if="questionInfoList.answerParsing!=''&&questionInfoList.answerParsing!=null">
                                                             <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing">
+                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing| to_trusted">
                                                                 
                                                             </div>
                                                         </div>
@@ -263,7 +263,7 @@
                                                                 <a href="javascript:;" class="dib" ng-bind="optionsel.title"></a>
                                                                 <i class="pa" ng-class="questionInfoList.studentExerciseAnswerInfo.answer.search(optionsel.title)!=-1 ? questionInfoList.answer.search(optionsel.title)!=-1 ? 'parse-right' : 'parse-error' : ''"></i>
                                                             </span>
-                                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option">
+                                                            <p class="f18 topic-options-details" ng-bind-html="optionsel.option| to_trusted">
                                                                 
                                                             </p>
                                                         </div>
@@ -284,7 +284,7 @@
                                                         </div> -->
                                                         <div class="parse-cont-box fl w" ng-if="questionInfoList.answerParsing!=''&&questionInfoList.answerParsing!=null">
                                                             <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing">
+                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing| to_trusted">
                                                                 
                                                             </div>
                                                         </div>
@@ -332,7 +332,7 @@
                                                         </div> -->
                                                         <div class="parse-cont-box fl w" ng-if="questionInfoList.answerParsing!=''&&questionInfoList.answerParsing!=null">
                                                             <p class="parse-cont-title w f18" ng-bind="'解析'"></p>
-                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing">
+                                                            <div class="parse-cont w f18" ng-bind-html="questionInfoList.answerParsing| to_trusted">
                                                                 
                                                             </div>
                                                         </div>
